@@ -22,6 +22,7 @@ class FormWidget(Ui_Form, QWidget):
         self.encryptor.text = self.inputTextEdit.toPlainText()
         self.encryptor.rsa_encryption()
         self.update_ui()
+        self.encryptor.send_socket_message()
 
     def update_ui(self):
         self.pValueLineEdit.setText(str(self.encryptor.pValue))

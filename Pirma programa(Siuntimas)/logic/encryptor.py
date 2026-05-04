@@ -1,7 +1,13 @@
+import json
+import socket
+
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QMessageBox
+
+IP = "127.0.0.1"
+PORT = 1234
 
 
 class Encryptor(QObject):
@@ -18,6 +24,8 @@ class Encryptor(QObject):
         self.dValue: int = None
         self.signature: int = None
         self.message_hash: int = None
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect_to_socket()
 
     def rsa_encryption(self) -> None:
 
@@ -36,3 +44,23 @@ class Encryptor(QObject):
         self.message_hash = int.from_bytes(text_hash.digest(), "big")
 
         self.signature = pow(self.message_hash, self.dValue, self.nValue)
+
+    def connect_to_socket(self):
+        try:
+            self.sock.connect((IP, PORT))
+        except Exception as e:
+            print(f"Conenction lost {e}")
+
+    def send_socket_message(self):
+        data = {
+            "eValue": str(self.eValue),
+            "nValue": str(self.nValue),
+            "initial_text": self.text,
+            "signature": str(self.signature),
+        }
+
+        message = json.dumps(data) + "\n"
+        try:
+            self.sock.sendall(message.encode("utf-8"))
+        except Exception as e:
+            print(f"Failed to send message: {e}")
