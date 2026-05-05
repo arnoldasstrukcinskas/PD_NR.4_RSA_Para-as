@@ -75,6 +75,12 @@ public class Changer {
 
     }
 
+    public void disconnect() throws IOException {
+        socket.close();
+        socket = null;
+    }
+
+
     public String sendMessage() throws IOException {
         if (socket == null)
         {

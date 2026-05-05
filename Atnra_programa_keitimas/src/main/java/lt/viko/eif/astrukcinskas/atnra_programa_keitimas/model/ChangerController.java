@@ -59,4 +59,11 @@ public class ChangerController {
 
         return ResponseEntity.ok(message);
     }
+
+    @GetMapping("Disconnect")
+    public ResponseEntity<String> disconnect() throws IOException {
+        changer.disconnect();
+
+        return ResponseEntity.ok("Antra programa atsijuge nuo treciosios");
+    }
 }
