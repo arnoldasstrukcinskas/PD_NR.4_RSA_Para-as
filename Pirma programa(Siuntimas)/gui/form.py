@@ -19,30 +19,28 @@ class FormWidget(Ui_Form, QWidget):
         super().__init__(parent=parent)
         self.setMinimumSize(400, 400)
         self.setupUi(self)
-        self.launch_receiver
         self.encryptor = Encryptor()
         self.sendOnePushButton.clicked.connect(self.send_mesage_to_changer)
         self.sendTwoPushButton.clicked.connect(self.send_message_to_reciever)
         self.receiverLaunchButton.clicked.connect(self.launch_receiver)
         self.changerLaunchButton.clicked.connect(self.launch_changer)
+        self.signatureTextEdit.textChanged.connect(self.set_signature)
+        self.cipherPushButton.clicked.connect(self.cipher)
+
+    def cipher(self):
+        self.encryptor.text = self.inputTextEdit.toPlainText()
+        self.encryptor.rsa_encryption()
+        self.update_ui()
 
     def send_mesage_to_changer(self):
         self.encryptor.connect_to_socket(self.encryptor.changerPort)
-        print("Žinutė išsiųsta!")
-
-        self.encryptor.text = self.inputTextEdit.toPlainText()
-        self.encryptor.rsa_encryption()
-        self.update_ui()
         self.encryptor.send_socket_message()
+        print("Žinutė išsiųsta!")
 
     def send_message_to_reciever(self):
         self.encryptor.connect_to_socket(self.encryptor.receiverPort)
-        print("Žinutė išsiųstą!")
-
-        self.encryptor.text = self.inputTextEdit.toPlainText()
-        self.encryptor.rsa_encryption()
-        self.update_ui()
         self.encryptor.send_socket_message()
+        print("Žinutė išsiųsta!")
 
     def update_ui(self):
         self.pValueLineEdit.setText(str(self.encryptor.pValue))
@@ -83,3 +81,6 @@ class FormWidget(Ui_Form, QWidget):
         )
 
         time.sleep(5)
+
+    def set_signature(self):
+        self.encryptor.signature = int(self.signatureTextEdit.toPlainText())

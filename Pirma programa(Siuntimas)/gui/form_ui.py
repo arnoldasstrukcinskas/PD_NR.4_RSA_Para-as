@@ -135,7 +135,7 @@ class Ui_Form(object):
         self.verticalLayout_2.addWidget(self.signatureLabel)
         self.signatureTextEdit = QtWidgets.QPlainTextEdit(Form)
         self.signatureTextEdit.setStyleSheet("background-color: rgb(254, 255, 184);")
-        self.signatureTextEdit.setReadOnly(True)
+        self.signatureTextEdit.setReadOnly(False)
         self.signatureTextEdit.setObjectName("signatureTextEdit")
         self.verticalLayout_2.addWidget(self.signatureTextEdit)
         self.emptySpace = QtWidgets.QLabel(Form)
@@ -147,6 +147,10 @@ class Ui_Form(object):
         self.sendOnePushButton = QtWidgets.QPushButton(Form)
         self.sendOnePushButton.setObjectName("sendOnePushButton")
         self.buttonsLayout.addWidget(self.sendOnePushButton)
+        self.cipherPushButton = QtWidgets.QPushButton(Form)
+        self.cipherPushButton.setStyleSheet("background-color: rgb(0, 255, 127);")
+        self.cipherPushButton.setObjectName("cipherPushButton")
+        self.buttonsLayout.addWidget(self.cipherPushButton)
         self.sendTwoPushButton = QtWidgets.QPushButton(Form)
         self.sendTwoPushButton.setObjectName("sendTwoPushButton")
         self.buttonsLayout.addWidget(self.sendTwoPushButton)
@@ -171,6 +175,7 @@ class Ui_Form(object):
         self.fiValueLabel.setText(_translate("Form", "<html><head/><body><p> ɸ - reikšmė</p></body></html>"))
         self.signatureLabel.setText(_translate("Form", "<html><head/><body><p>Skaitmeninis parašas:</p></body></html>"))
         self.sendOnePushButton.setText(_translate("Form", "Siųstu keitimui"))
+        self.cipherPushButton.setText(_translate("Form", "Šifruoti"))
         self.sendTwoPushButton.setText(_translate("Form", "Siųsti tikrinimui"))
 
 
