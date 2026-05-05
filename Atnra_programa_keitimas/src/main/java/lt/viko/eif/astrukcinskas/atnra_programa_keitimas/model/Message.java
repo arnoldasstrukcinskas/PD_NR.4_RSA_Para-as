@@ -13,19 +13,19 @@ public class Message {
     private String initial_text;
     private BigInteger signature;
 
-    public BigInteger geteValue() {
+    public BigInteger getEValue() {
         return eValue;
     }
 
-    public void seteValue(BigInteger eValue) {
+    public void setEValue(BigInteger eValue) {
         this.eValue = eValue;
     }
 
-    public BigInteger getnValue() {
+    public BigInteger getNValue() {
         return nValue;
     }
 
-    public void setnValue(BigInteger nValue) {
+    public void setNValue(BigInteger nValue) {
         this.nValue = nValue;
     }
 
@@ -43,15 +43,5 @@ public class Message {
 
     public void setSignature(BigInteger signature) {
         this.signature = signature;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "eValue=" + eValue +
-                ", nValue=" + nValue +
-                ", initial_text='" + initial_text + '\'' +
-                ", signature=" + signature +
-                '}';
     }
 }

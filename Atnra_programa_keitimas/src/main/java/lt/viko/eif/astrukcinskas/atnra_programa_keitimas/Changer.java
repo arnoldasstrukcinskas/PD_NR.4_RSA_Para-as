@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,6 +20,7 @@ public class Changer {
 
     @Autowired
     private Message message;
+    private Socket socket;
 
     public void openSocket() throws IOException {
         ServerSocket serverSocket = new ServerSocket(1233);
@@ -44,15 +47,52 @@ public class Changer {
 
         String messageJson = input.nextLine();
 
-        Map<String, String> receivedMessage = objectMapper.readValue(messageJson, Map.class);
-
-        this.message.seteValue(new BigInteger(receivedMessage.get("eValue")));
-        this.message.setnValue(new BigInteger(receivedMessage.get("nValue")));
-        this.message.setInitial_text(receivedMessage.get("initial_text"));
-        this.message.setSignature(new BigInteger(receivedMessage.get("signature")));
+        this.message = objectMapper.readValue(messageJson, Message.class);
     }
 
     public Message getMessage(){
         return this.message;
+    }
+
+    public Message setMessage(Message message) {
+
+        if(this.message.getEValue().equals(message.getEValue()) &&
+        this.message.getInitial_text().equals(message.getInitial_text()) &&
+        this.message.getNValue().equals(message.getNValue()) &&
+        this.message.getSignature().equals(message.getSignature()))
+        {
+            return null;
+        }
+
+        this.message = message;
+
+        return message;
+    }
+
+    public void connect() throws IOException {
+        socket = new Socket("localhost", 1234);
+        System.out.println("Keitimo aplikacija prisijunge prie tikrinimo aplikacijos");
+
+    }
+
+    public String sendMessage() throws IOException {
+        if (socket == null)
+        {
+            connect();
+            System.out.println("Check");
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        OutputStream out = socket.getOutputStream();
+
+        try {
+
+            String messageJson = objectMapper.writeValueAsString(this.message);
+            out.write((messageJson + "\n").getBytes());
+            out.flush();
+        } catch (Exception e) {
+            System.out.println("Changer: Nepavyko nusiusti zinutes");
+        }
+        return "Zinute sekmingai nusiusta";
     }
 }
