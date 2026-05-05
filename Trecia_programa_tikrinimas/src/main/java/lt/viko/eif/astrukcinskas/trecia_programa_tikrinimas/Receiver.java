@@ -65,7 +65,7 @@ public class Receiver {
 
         if (messageHash.equals(x))
         {
-            System.out.println("Žinutė verifikuota");
+            System.out.printf("Žinutė verifikuota: %s%n", message);
         } else {
             System.out.println("Žinutė neverifikuota");
         }
