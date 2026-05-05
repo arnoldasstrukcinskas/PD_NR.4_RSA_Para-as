@@ -49,6 +49,7 @@ class Encryptor(QObject):
         try:
             self.sock.connect((IP, PORT))
         except Exception as e:
+            self.sock.close()
             print(f"Conenction lost {e}")
 
     def send_socket_message(self):
