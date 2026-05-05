@@ -20,7 +20,7 @@ class FormWidget(Ui_Form, QWidget):
         self.setMinimumSize(400, 400)
         self.setupUi(self)
         self.launch_receiver
-        self.encryptor = Encryptor()
+        # self.encryptor = Encryptor()
         self.sendOnePushButton.clicked.connect(self.send_mesage)
         self.receiverLaunchButton.clicked.connect(self.launch_receiver)
         self.changerLaunchButton.clicked.connect(self.launch_changer)
@@ -62,4 +62,13 @@ class FormWidget(Ui_Form, QWidget):
         print("Programą paleidau ir prisijungiau!")
 
     def launch_changer(self):
-        print("aaa")
+        print("Changer launched")
+        current_dir = Path(__file__).resolve().parent
+        app_dir = current_dir.parent.parent / "Atnra_programa_keitimas"
+        print(f"path: {app_dir}")
+        self.receiverProcess = subprocess.Popen(
+            ["mvnw.cmd", "spring-boot:run"],
+            cwd=app_dir,
+            shell=True,
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
+        )
