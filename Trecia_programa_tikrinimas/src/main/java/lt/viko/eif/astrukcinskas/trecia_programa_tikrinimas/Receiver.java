@@ -5,14 +5,12 @@ import tools.jackson.databind.ObjectMapper;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -21,11 +19,15 @@ public class Receiver {
     public void openSocket() throws IOException {
         ServerSocket serverSocket = new ServerSocket(1234);
 
-        System.out.println("Waiting for message");
+        System.out.println("<====================Reciever launched!====================>");
+
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
+                System.out.println("Antroji programa prisijunge!");
+
                 Scanner input = new Scanner(socket.getInputStream());
+
 
                 while (input.hasNextLine()) {
                     messageChecker(input);
