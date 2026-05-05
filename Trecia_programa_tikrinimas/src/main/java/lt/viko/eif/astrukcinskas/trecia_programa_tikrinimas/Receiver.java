@@ -1,6 +1,7 @@
 package lt.viko.eif.astrukcinskas.trecia_programa_tikrinimas;
 
 import lt.viko.eif.astrukcinskas.trecia_programa_tikrinimas.model.PublicKey;
+import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 import javax.swing.*;
@@ -42,16 +43,14 @@ public class Receiver {
         ObjectMapper objectMapper = new ObjectMapper();
 
         String messageJson = input.nextLine();
-        Map<String, String> message = objectMapper.readValue(messageJson, Map.class);
-        System.out.println(message.get("eValue"));
-        System.out.println(message.get("nValue"));
-        System.out.println(message.get("initial_text"));
-        System.out.println(message.get("signature"));
-        PublicKey publicKey = new PublicKey();
-        publicKey.seteValue(new BigInteger(message.get("eValue")));
-        publicKey.setnValue(new BigInteger(message.get("nValue")));
 
-        messageVerifier(publicKey, message.get("initial_text"), message.get("signature"));
+        JsonNode message = objectMapper.readTree(messageJson);
+
+        PublicKey publicKey = new PublicKey();
+        publicKey.seteValue(new BigInteger(message.get("eValue").asString()));
+        publicKey.setnValue(new BigInteger(message.get("nValue").asString()));
+
+        messageVerifier(publicKey, message.get("initial_text").asString(), message.get("signature").asString());
     }
 
     public void messageVerifier(PublicKey publicKey, String message, String signature) throws NoSuchAlgorithmException {
@@ -64,16 +63,11 @@ public class Receiver {
         BigInteger signatureValue = new BigInteger(signature);
         BigInteger x = signatureValue.modPow(publicKey.geteValue(), publicKey.getnValue());
 
-        System.out.println("Message has");
-        System.out.println(messageHash);
-        System.out.println("Found hash");
-        System.out.println(x);
-
         if (messageHash.equals(x))
         {
-            System.out.println("Message correct");
+            System.out.println("Žinutė verifikuota");
         } else {
-            System.out.println("Something wrong");
+            System.out.println("Žinutė neverifikuota");
         }
     }
 
