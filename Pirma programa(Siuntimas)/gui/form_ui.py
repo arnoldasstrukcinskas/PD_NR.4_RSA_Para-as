@@ -170,8 +170,8 @@ class Ui_Form(object):
         self.nValueLabel.setText(_translate("Form", "n - reikšmė"))
         self.fiValueLabel.setText(_translate("Form", "<html><head/><body><p> ɸ - reikšmė</p></body></html>"))
         self.signatureLabel.setText(_translate("Form", "<html><head/><body><p>Skaitmeninis parašas:</p></body></html>"))
-        self.sendOnePushButton.setText(_translate("Form", "Siųsti(1)"))
-        self.sendTwoPushButton.setText(_translate("Form", "Siųsti(2)"))
+        self.sendOnePushButton.setText(_translate("Form", "Siųstu keitimui"))
+        self.sendTwoPushButton.setText(_translate("Form", "Siųsti tikrinimui"))
 
 
 if __name__ == "__main__":

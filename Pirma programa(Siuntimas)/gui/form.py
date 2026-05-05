@@ -20,12 +20,25 @@ class FormWidget(Ui_Form, QWidget):
         self.setMinimumSize(400, 400)
         self.setupUi(self)
         self.launch_receiver
-        # self.encryptor = Encryptor()
-        self.sendOnePushButton.clicked.connect(self.send_mesage)
+        self.encryptor = Encryptor()
+        self.sendOnePushButton.clicked.connect(self.send_mesage_to_changer)
+        self.sendTwoPushButton.clicked.connect(self.send_message_to_reciever)
         self.receiverLaunchButton.clicked.connect(self.launch_receiver)
         self.changerLaunchButton.clicked.connect(self.launch_changer)
 
-    def send_mesage(self):
+    def send_mesage_to_changer(self):
+        self.encryptor.connect_to_socket(self.encryptor.changerPort)
+        print("Žinutė išsiųsta!")
+
+        self.encryptor.text = self.inputTextEdit.toPlainText()
+        self.encryptor.rsa_encryption()
+        self.update_ui()
+        self.encryptor.send_socket_message()
+
+    def send_message_to_reciever(self):
+        self.encryptor.connect_to_socket(self.encryptor.receiverPort)
+        print("Žinutė išsiųstą!")
+
         self.encryptor.text = self.inputTextEdit.toPlainText()
         self.encryptor.rsa_encryption()
         self.update_ui()
@@ -57,10 +70,6 @@ class FormWidget(Ui_Form, QWidget):
             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
         )
 
-        time.sleep(5)
-        self.encryptor = Encryptor()
-        print("Programą paleidau ir prisijungiau!")
-
     def launch_changer(self):
         print("Changer launched")
         current_dir = Path(__file__).resolve().parent
@@ -72,3 +81,5 @@ class FormWidget(Ui_Form, QWidget):
             shell=True,
             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
         )
+
+        time.sleep(5)

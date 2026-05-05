@@ -257,14 +257,14 @@
      <item>
       <widget class="QPushButton" name="sendOnePushButton">
        <property name="text">
-        <string>Siųsti(1)</string>
+        <string>Siųstu keitimui</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="sendTwoPushButton">
        <property name="text">
-        <string>Siųsti(2)</string>
+        <string>Siųsti tikrinimui</string>
        </property>
       </widget>
      </item>
